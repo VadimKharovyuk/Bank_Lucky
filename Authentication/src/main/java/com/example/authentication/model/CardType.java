@@ -1,2 +1,7 @@
-package com.example.authentication.model;public enum CardType {
+package com.example.authentication.model;
+
+
+public enum CardType {
+    DEBIT,
+    CREDIT
 }
