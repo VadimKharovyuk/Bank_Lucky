@@ -1,0 +1,445 @@
+<!--&lt;!&ndash;<!DOCTYPE html>&ndash;&gt;-->
+<!--&lt;!&ndash;<html lang="en">&ndash;&gt;-->
+<!--&lt;!&ndash;<head>&ndash;&gt;-->
+<!--&lt;!&ndash;  <meta charset="UTF-8">&ndash;&gt;-->
+<!--&lt;!&ndash;  <title>Register</title>&ndash;&gt;-->
+<!--&lt;!&ndash;</head>&ndash;&gt;-->
+<!--&lt;!&ndash;<body>&ndash;&gt;-->
+<!--&lt;!&ndash;<h1>Register</h1>&ndash;&gt;-->
+<!--&lt;!&ndash;<form action="/register" method="post">&ndash;&gt;-->
+<!--&lt;!&ndash;  <label for="email">Email:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="email" id="email" name="email" required>&ndash;&gt;-->
+<!--&lt;!&ndash;  <br>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <label for="password">Password:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="password" id="password" name="password" required>&ndash;&gt;-->
+<!--&lt;!&ndash;  <br>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <label for="username">Username:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="text" id="username" name="username" required>&ndash;&gt;-->
+<!--&lt;!&ndash;  <br>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <label for="firstName">First Name:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="text" id="firstName" name="firstName" required>&ndash;&gt;-->
+<!--&lt;!&ndash;  <br>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <label for="lastName">Last Name:</label>&ndash;&gt;-->
+<!--&lt;!&ndash;  <input type="text" id="lastName" name="lastName" required>&ndash;&gt;-->
+<!--&lt;!&ndash;  <br>&ndash;&gt;-->
+
+<!--&lt;!&ndash;  <button type="submit">Register</button>&ndash;&gt;-->
+<!--&lt;!&ndash;</form>&ndash;&gt;-->
+<!--&lt;!&ndash;<p th:text="${errorMessage}"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;<p th:text="${successMessage}"></p>&ndash;&gt;-->
+<!--&lt;!&ndash;<a href="/login">Already have an account? Login here</a>&ndash;&gt;-->
+<!--&lt;!&ndash;</body>&ndash;&gt;-->
+<!--&lt;!&ndash;</html>&ndash;&gt;-->
+
+<!--<!DOCTYPE html>-->
+<!--<html lang="ru">-->
+<!--<head>-->
+<!--  <meta charset="UTF-8">-->
+<!--  <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--  <title>Вход / Регистрация</title>-->
+<!--  <style>-->
+<!--    body {-->
+<!--      font-family: Arial, sans-serif;-->
+<!--      margin: 0;-->
+<!--      padding: 0;-->
+<!--      display: flex;-->
+<!--      justify-content: center;-->
+<!--      align-items: center;-->
+<!--      height: 100vh;-->
+<!--      transition: background-color 0.3s, color 0.3s;-->
+<!--    }-->
+<!--    body.light-theme {-->
+<!--      background-color: #f0f2f5;-->
+<!--      color: #333;-->
+<!--    }-->
+<!--    body.dark-theme {-->
+<!--      background-color: #1c1e21;-->
+<!--      color: #f0f2f5;-->
+<!--    }-->
+<!--    .container {-->
+<!--      background-color: white;-->
+<!--      padding: 2rem;-->
+<!--      border-radius: 8px;-->
+<!--      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);-->
+<!--      width: 100%;-->
+<!--      max-width: 350px;-->
+<!--      transition: background-color 0.3s, box-shadow 0.3s;-->
+<!--    }-->
+<!--    .dark-theme .container {-->
+<!--      background-color: #242526;-->
+<!--      box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);-->
+<!--    }-->
+<!--    h1 {-->
+<!--      text-align: center;-->
+<!--      color: #1877f2;-->
+<!--      margin-bottom: 1.5rem;-->
+<!--    }-->
+<!--    form {-->
+<!--      display: flex;-->
+<!--      flex-direction: column;-->
+<!--    }-->
+<!--    label {-->
+<!--      margin-bottom: 0.5rem;-->
+<!--      color: #606770;-->
+<!--    }-->
+<!--    .dark-theme label {-->
+<!--      color: #b0b3b8;-->
+<!--    }-->
+<!--    input {-->
+<!--      padding: 0.5rem;-->
+<!--      margin-bottom: 1rem;-->
+<!--      border: 1px solid #dddfe2;-->
+<!--      border-radius: 6px;-->
+<!--      font-size: 17px;-->
+<!--      background-color: white;-->
+<!--      color: #333;-->
+<!--      transition: background-color 0.3s, color 0.3s, border-color 0.3s;-->
+<!--    }-->
+<!--    .dark-theme input {-->
+<!--      background-color: #3a3b3c;-->
+<!--      color: #e4e6eb;-->
+<!--      border-color: #3a3b3c;-->
+<!--    }-->
+<!--    button {-->
+<!--      background-color: #1877f2;-->
+<!--      color: white;-->
+<!--      padding: 0.75rem;-->
+<!--      border: none;-->
+<!--      border-radius: 6px;-->
+<!--      font-size: 20px;-->
+<!--      font-weight: bold;-->
+<!--      cursor: pointer;-->
+<!--      transition: background-color 0.3s ease;-->
+<!--    }-->
+<!--    button:hover {-->
+<!--      background-color: #166fe5;-->
+<!--    }-->
+<!--    #themeToggle {-->
+<!--      background-color: #e4e6eb;-->
+<!--      color: #050505;-->
+<!--      font-size: 14px;-->
+<!--      padding: 0.5rem;-->
+<!--      margin-top: 1rem;-->
+<!--    }-->
+<!--    .dark-theme #themeToggle {-->
+<!--      background-color: #3a3b3c;-->
+<!--      color: #e4e6eb;-->
+<!--    }-->
+<!--    p {-->
+<!--      text-align: center;-->
+<!--      margin-top: 1rem;-->
+<!--      color: #606770;-->
+<!--    }-->
+<!--    .dark-theme p {-->
+<!--      color: #b0b3b8;-->
+<!--    }-->
+<!--    a {-->
+<!--      color: #1877f2;-->
+<!--      text-decoration: none;-->
+<!--      font-weight: bold;-->
+<!--    }-->
+<!--    a:hover {-->
+<!--      text-decoration: underline;-->
+<!--    }-->
+<!--    .error {-->
+<!--      color: #ff0000;-->
+<!--      text-align: center;-->
+<!--      margin-top: 1rem;-->
+<!--    }-->
+<!--    .success {-->
+<!--      color: #00a400;-->
+<!--      text-align: center;-->
+<!--      margin-top: 1rem;-->
+<!--    }-->
+<!--  </style>-->
+<!--</head>-->
+
+<!--<body>-->
+
+<!--<div class="container">-->
+<!-- -->
+<!--  <div id="loginForm">-->
+<!--    <h1>Вход</h1>-->
+<!--    <form action="/login" method="post">-->
+<!--      <label for="loginEmail">Email:</label>-->
+<!--      <input type="email" id="loginEmail" name="email" required>-->
+
+<!--      <label for="loginPassword">Пароль:</label>-->
+<!--      <input type="password" id="loginPassword" name="password" required>-->
+
+<!--      <button type="submit">Войти</button>-->
+<!--    </form>-->
+<!--    <p class="message">Нет аккаунта? <span class="toggle" onclick="toggleForms()">Зарегистрироваться</span></p>-->
+
+<!--  </div>-->
+
+<!--  <div id="registerForm" style="display: none;">-->
+<!--    <h1>Регистрация</h1>-->
+<!--    <form action="/register" method="post">-->
+<!--      <label for="registerEmail">Email:</label>-->
+<!--      <input type="email" id="registerEmail" name="email" required>-->
+
+<!--      <label for="registerPassword">Пароль:</label>-->
+<!--      <input type="password" id="registerPassword" name="password" required>-->
+
+<!--      <label for="username">Имя пользователя:</label>-->
+<!--      <input type="text" id="username" name="username" required>-->
+
+<!--      <label for="firstName">Имя:</label>-->
+<!--      <input type="text" id="firstName" name="firstName" required>-->
+
+<!--      <label for="lastName">Фамилия:</label>-->
+<!--      <input type="text" id="lastName" name="lastName" required>-->
+
+<!--      <button type="submit">Зарегистрироваться</button>-->
+<!--    </form>-->
+<!--    <p class="message">Уже есть аккаунт? <span class="toggle" onclick="toggleForms()">Войти</span></p>-->
+<!--  </div>-->
+
+<!--  <p id="errorMessage" class="error"></p>-->
+<!--  <p id="successMessage" class="success"></p>-->
+<!--</div>-->
+
+<!--<script>-->
+<!--  function toggleForms() {-->
+<!--    const loginForm = document.getElementById('loginForm');-->
+<!--    const registerForm = document.getElementById('registerForm');-->
+<!--    if (loginForm.style.display === 'none') {-->
+<!--      loginForm.style.display = 'block';-->
+<!--      registerForm.style.display = 'none';-->
+<!--    } else {-->
+<!--      loginForm.style.display = 'none';-->
+<!--      registerForm.style.display = 'block';-->
+<!--    }-->
+<!--  }-->
+
+<!--  // Здесь можно добавить логику для отображения сообщений об ошибках и успехе-->
+<!--  // Например:-->
+<!--  // document.getElementById('errorMessage').textContent = '${errorMessage}';-->
+<!--  // document.getElementById('successMessage').textContent = '${successMessage}';-->
+
+<!--  // Получаем элемент переключателя темы и устанавливаем текущую тему-->
+<!--  const themeToggleButton = document.getElementById('themeToggle');-->
+<!--  const currentTheme = localStorage.getItem('theme') || 'light-theme';-->
+<!--  document.body.classList.add(currentTheme);-->
+
+<!--  themeToggleButton.addEventListener('click', () => {-->
+<!--    // Переключаем класс темы-->
+<!--    if (document.body.classList.contains('light-theme')) {-->
+<!--      document.body.classList.remove('light-theme');-->
+<!--      document.body.classList.add('dark-theme');-->
+<!--      localStorage.setItem('theme', 'dark-theme');-->
+<!--    } else {-->
+<!--      document.body.classList.remove('dark-theme');-->
+<!--      document.body.classList.add('light-theme');-->
+<!--      localStorage.setItem('theme', 'light-theme');-->
+<!--    }-->
+<!--  });-->
+<!--</script>-->
+<!--</body>-->
+<!--</html>-->
+
+
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход / Регистрация</title>
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2980b9;
+      --background-color: #f8f9fa;
+      --text-color: #333;
+    }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      background-color: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      text-align: center;
+      color: var(--primary-color);
+      margin-bottom: 1.5rem;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    label {
+      margin-bottom: 0.5rem;
+      color: #606770;
+    }
+    .dark-theme label {
+      color: #b0b3b8;
+    }
+    input {
+      padding: 0.5rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    button {
+      background-color: var(--primary-color);
+      color: white;
+      padding: 0.75rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: var(--secondary-color);
+    }
+    .message {
+      text-align: center;
+      margin-top: 1rem;
+      color: #666;
+    }
+    .toggle {
+      color: var(--primary-color);
+      cursor: pointer;
+    }
+    .error {
+      color: #e74c3c;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    .success {
+      color: #2ecc71;
+      text-align: center;
+      margin-top: 1rem;
+    }
+    #themeToggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: var(--primary-color);
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .dark-theme {
+      --primary-color: #3498db;
+      --secondary-color: #2980b9;
+      --background-color: #2c3e50;
+      --text-color: #ecf0f1;
+    }
+    .dark-theme .container {
+      background-color: #242526;
+      box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
+    }
+    .dark-theme input {
+      background-color: #2c3e50;
+      color: #ecf0f1;
+      border-color: #7f8c8d;
+    }
+    body.light-theme {
+      background-color: #f0f2f5;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+<button id="themeToggle">Сменить тему</button>
+<div class="container">
+  <div id="loginForm">
+    <h1>Вход</h1>
+    <form action="/login" method="post">
+      <label for="loginEmail">Email:</label>
+      <input type="email" id="loginEmail" name="email" required>
+
+      <label for="loginPassword">Пароль:</label>
+      <input type="password" id="loginPassword" name="password" required>
+
+      <button type="submit">Войти</button>
+    </form>
+    <p class="message">Нет аккаунта? <span class="toggle" onclick="toggleForms()">Зарегистрироваться</span></p>
+  </div>
+
+  <div id="registerForm" style="display: none;">
+    <h1>Регистрация</h1>
+    <form action="/register" method="post">
+      <label for="registerEmail">Email:</label>
+      <input type="email" id="registerEmail" name="email" required>
+
+      <label for="registerPassword">Пароль:</label>
+      <input type="password" id="registerPassword" name="password" required>
+
+      <label for="username">Имя пользователя:</label>
+      <input type="text" id="username" name="username" required>
+
+      <label for="firstName">Имя:</label>
+      <input type="text" id="firstName" name="firstName" required>
+
+      <label for="lastName">Фамилия:</label>
+      <input type="text" id="lastName" name="lastName" required>
+
+      <button type="submit">Зарегистрироваться</button>
+    </form>
+    <p class="message">Уже есть аккаунт? <span class="toggle" onclick="toggleForms()">Войти</span></p>
+  </div>
+
+  <p id="errorMessage" class="error"></p>
+  <p id="successMessage" class="success"></p>
+</div>
+
+<script>
+  function toggleForms() {
+    const loginForm = document.getElementById('loginForm');
+    const registerForm = document.getElementById('registerForm');
+    if (loginForm.style.display === 'none') {
+      loginForm.style.display = 'block';
+      registerForm.style.display = 'none';
+    } else {
+      loginForm.style.display = 'none';
+      registerForm.style.display = 'block';
+    }
+  }
+
+  // Здесь можно добавить логику для отображения сообщений об ошибках и успехе
+  // Например:
+  // document.getElementById('errorMessage').textContent = '${errorMessage}';
+  // document.getElementById('successMessage').textContent = '${successMessage}';
+
+  // Получаем элемент переключателя темы и устанавливаем текущую тему
+  const themeToggleButton = document.getElementById('themeToggle');
+  const currentTheme = localStorage.getItem('theme') || 'light-theme';
+  document.body.classList.add(currentTheme);
+
+  themeToggleButton.addEventListener('click', () => {
+    // Переключаем класс темы
+    if (document.body.classList.contains('light-theme')) {
+      document.body.classList.remove('light-theme');
+      document.body.classList.add('dark-theme');
+      localStorage.setItem('theme', 'dark-theme');
+    } else {
+      document.body.classList.remove('dark-theme');
+      document.body.classList.add('light-theme');
+      localStorage.setItem('theme', 'light-theme');
+    }
+  });
+</script>
+</body>
+</html>
