@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard</title>
+</head>
+<body>
+<h1>Welcome, <span th:text="${client.firstName}"></span>!</h1>
+<h2>Your Details:</h2>
+<p>Email: <span th:text="${client.email}"></span></p>
+<p>Username: <span th:text="${client.username}"></span></p>
+<p>First Name: <span th:text="${client.firstName}"></span></p>
+<p>Last Name: <span th:text="${client.lastName}"></span></p>
+<p>Active: <span th:text="${client.isActive} ? 'Yes' : 'No'"></span></p>
+
+<h3>Your Cards:</h3>
+<ul>
+<!--  <li th:each="card : ${client.cards}">-->
+<!--    <p>Card Number: <span th:text="${card.number}"></span></p>-->
+<!--    <p>Expiry Date: <span th:text="${card.expiryDate}"></span></p>-->
+<!--  </li>-->
+</ul>
+
+<a href="/logout">Logout</a>
+</body>
+</html>

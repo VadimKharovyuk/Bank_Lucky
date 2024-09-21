@@ -9,13 +9,13 @@ import java.util.List;
 
 @Data
 @Builder
-@AllArgsConstructor // Добавляет публичный конструктор с аргументами
+@AllArgsConstructor
 @NoArgsConstructor
+
 public class ClientDto {
 
-
     private String email;
-    private String password;
+    private String password; // Добавлено поле для пароля
 
 
     private Long id;
@@ -24,7 +24,9 @@ public class ClientDto {
     private String lastName;
     private Role role;
     private boolean isActive;
-    private List<CardDto> cards;
+    private List<CardDto> cards; // Список карт клиента
+
+
 
 
 }

@@ -13,6 +13,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/clients")
 @RequiredArgsConstructor
@@ -21,6 +24,32 @@ public class ClientController {
 
     private final ClientService clientService;
     private final PasswordEncoder passwordEncoder;
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> loginClient(@RequestBody LoginRequest loginRequest) {
+        log.info("Received login request for email: {}", loginRequest.getEmail());
+
+        try {
+            UserDetails userDetails = clientService.loadUserByUsername(loginRequest.getEmail());
+
+            if (passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
+                log.info("Login successful for email: {}", loginRequest.getEmail());
+                return ResponseEntity.ok(Collections.singletonMap("message", "Login successful"));
+            } else {
+                log.warn("Invalid password for email: {}", loginRequest.getEmail());
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Collections.singletonMap("message", "Invalid credentials"));
+            }
+        } catch (UsernameNotFoundException e) {
+            log.warn("User not found for email: {}", loginRequest.getEmail());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Collections.singletonMap("message", "Invalid credentials"));
+        } catch (Exception e) {
+            log.error("Unexpected error during login for email: {}", loginRequest.getEmail(), e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("message", "An unexpected error occurred"));
+        }
+    }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
@@ -40,25 +69,7 @@ public class ClientController {
         return ResponseEntity.ok(savedClient);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> loginClient(@RequestBody LoginRequest loginRequest) {
-        log.info("Received login request for email: {}", loginRequest.getEmail());
 
-        try {
-            UserDetails userDetails = clientService.loadUserByUsername(loginRequest.getEmail());
-
-            if (passwordEncoder.matches(loginRequest.getPassword(), userDetails.getPassword())) {
-                log.info("Login successful for email: {}", loginRequest.getEmail());
-                return ResponseEntity.ok("Login successful");
-            } else {
-                log.warn("Invalid password for email: {}", loginRequest.getEmail());
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
-            }
-        } catch (UsernameNotFoundException e) {
-            log.warn("User not found for email: {}", loginRequest.getEmail());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
-        }
-    }
 
     @GetMapping("/email")
     public ResponseEntity<ClientDto> getByEmail(@RequestParam String email) {
